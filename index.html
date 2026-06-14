@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 校园恋爱物语 · 实时版</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- 引入 Supabase 客户端库 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏫 我们的校园恋爱空间 💕</h1>
+      <div class="status-bar">
+        <span id="connectionStatus" class="status-dot offline"></span>
+        <span id="statusText">正在连接...</span>
+      </div>
+      <nav>
+        <button class="tab-btn active" onclick="switchTab('chat')">💬 实时聊天</button>
+        <button class="tab-btn" onclick="switchTab('memory')">📒 恋爱存储器</button>
+        <button class="tab-btn" onclick="switchTab('timer')">⏳ 在一起天数</button>
+      </nav>
+    </header>
+
+    <!-- 实时聊天区 -->
+    <section id="chat" class="tab active">
+      <div class="room-selector">
+        <label>💌 选择聊天室：</label>
+        <select id="roomSelect" onchange="switchRoom(this.value)">
+          <option value="default">🌹 我们的秘密花园</option>
+          <option value="study">📚 图书馆自习室</option>
+          <option value="canteen">🍜 食堂约会</option>
+        </select>
+      </div>
+      
+      <div id="chatBox" class="chat-box">
+        <div class="loading-msg">加载历史消息中...</div>
+      </div>
+      
+      <div class="input-row">
+        <input type="text" id="nicknameInput" placeholder="你的昵称" 
+               value="" maxlength="10" style="width:80px;">
+        <input type="text" id="msgInput" placeholder="输入你想说的话..." maxlength="500"
+               onkeydown="if(event.key==='Enter') sendMsg()">
+        <button onclick="sendMsg()" id="sendBtn">发送 💌</button>
+      </div>
+      <small>💡 按 Enter 快速发送 · 支持多房间切换</small>
+    </section>
+
+    <!-- 恋爱存储器（不变） -->
+    <section id="memory" class="tab">
+      <h3>📝 记录我们的瞬间</h3>
+      <input type="date" id="memDate">
+      <input type="text" id="memText" placeholder="今天发生了什么…">
+      <button onclick="addMemory()">存入记忆</button>
+      <ul id="memList" class="mem-list"></ul>
+    </section>
+
+    <!-- 在一起计时（不变） -->
+    <section id="timer" class="tab">
+      <h3>我们已经在一起</h3>
+      <p id="loveTimer" class="big-timer"></p>
+      <label>设置纪念日：<input type="date" id="annivInput" onchange="setAnniversary()"></label>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+/* === 保留之前的所有样式，追加以下内容 === */
+
+/* 状态指示器 */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.online { background-color: #69f0ae; box-shadow: 0 0 6px #69f0ae; }
+.status-dot.offline { background-color: #ff5252; }
+.status-dot.connecting { background-color: #ffd740; animation: pulse 1s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* 房间选择器 */
+.room-selector {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.room-selector select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 0.85rem;
+}
+
+/* 聊天框增强 */
+.chat-box {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  scroll-behavior: smooth;
+}
+
+/* 消息气泡时间戳 */
+.msg-time {
+  font-size: 0.65rem;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* 加载提示 */
+.loading-msg {
+  text-align: center;
+  color: #aaa;
+  padding: 40px 0;
+}
+
+/* 昵称输入框 */
+#nicknameInput {
+  width: 72px !important;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* 新消息提醒 */
+.new-msg-indicator {
+  position: sticky;
+  bottom: 56px;
+  text-align: center;
+  pointer-events: none;
+}
