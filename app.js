@@ -1,6 +1,6 @@
 // 替换为你的真实 Supabase 凭据
 const SUPABASE_URL = 'https://sihxiuysiczzxlzrirzx.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_dxNbb_jDiOMnIaADtbl41g_e_UfDHgW';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpaHhpdXlzaWN6enhsenJpcnp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0Mjc1OTUsImV4cCI6MjA5NzAwMzU5NX0.4JbMXbg2HPtOBrkz6McYI_EK8oitU7F2cHaDPsa2LP8';
 
 // 避免重复声明：检查是否已存在
 if (typeof sb === 'undefined') {
