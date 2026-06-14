@@ -38,22 +38,31 @@ function sendMsg() {
 }
 
 // 订阅 Realtime
-sb.channel('public:love_messages')
-  .on('postgres_changes', 
-    { event: 'INSERT', schema: 'public', table: 'love_messages' },
-    payload => {
-      const m = payload.new;
-      const chatBox = document.getElementById('chat-box');
-      chatBox.innerHTML += 
-        `<div class="msg"><span class="who">${m.sender}：</span>${m.content}</div>`;
-      chatBox.scrollTop = 9999;
-    })
-  .subscribe(status => {
-    document.getElementById('presence').textContent =
-      status === 'SUBSCRIBED' ? '🟢 实时连接已建立，等 TA上线～' : '⚠️ 连接异常';
-  });
+const channel = sb.channel('realtime-messages')
 
-loadMsgs();
+channel.on(
+  'postgres_changes',
+  {
+    event: 'INSERT',
+    schema: 'public',
+    table: 'love_messages'
+  },
+  (payload) => {
+    const m = payload.new
+    const chatBox = document.getElementById('chat-box')
+    chatBox.innerHTML +=
+      `<div class="msg"><span class="who">${m.sender}：</span>${m.content}</div>`
+    chatBox.scrollTop = 9999
+  }
+)
+
+channel.subscribe((status, err) => {
+  console.log('订阅状态:', status, err)
+  document.getElementById('presence').textContent =
+    status === 'SUBSCRIBED'
+      ? '🟢 实时连接成功'
+      : `⚠️ 状态: ${status}`
+})
 
 // ===== 恋爱存储器 =====
 async function loadMemories() {
