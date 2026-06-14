@@ -1,9 +1,13 @@
-const SUPABASE_URL = 'https://sihxiuysiczzxlzrirzx.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_dxNbb_jDiOMnIaADtbl41g_e_UfDHgW';
+// 替换为你的真实 Supabase 凭据
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_KEY = 'YOUR_ANON_KEY';
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// 避免重复声明：检查是否已存在
+if (typeof sb === 'undefined') {
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
 
-// 在一起天数
+// ===== 在一起天数 =====
 const START_DATE = new Date('2025-09-01');
 document.getElementById('days').textContent =
   Math.floor((Date.now() - START_DATE) / 86400000);
@@ -22,14 +26,16 @@ function renderMsgs(msgs) {
   document.getElementById('chat-box').scrollTop = 9999;
 }
 
-// ✅ 关键：挂到 window 上
-window.sendMsg = async () => {
+// 用函数声明方式，确保全局可用
+function sendMsg() {
   const sender = document.getElementById('sender').value;
   const content = document.getElementById('msg-input').value.trim();
   if (!content) return;
-  await sb.from('love_messages').insert({ sender, content });
-  document.getElementById('msg-input').value = '';
-};
+  
+  sb.from('love_messages').insert({ sender, content }).then(() => {
+    document.getElementById('msg-input').value = '';
+  });
+}
 
 // 订阅 Realtime
 sb.channel('public:love_messages')
@@ -37,9 +43,10 @@ sb.channel('public:love_messages')
     { event: 'INSERT', schema: 'public', table: 'love_messages' },
     payload => {
       const m = payload.new;
-      document.getElementById('chat-box').innerHTML +=
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML += 
         `<div class="msg"><span class="who">${m.sender}：</span>${m.content}</div>`;
-      document.getElementById('chat-box').scrollTop = 9999;
+      chatBox.scrollTop = 9999;
     })
   .subscribe(status => {
     document.getElementById('presence').textContent =
@@ -58,16 +65,17 @@ async function loadMemories() {
   ).join('');
 }
 
-// ✅ 同样挂到 window
-window.saveMemory = async () => {
+function saveMemory() {
   const title = document.getElementById('mem-title').value.trim();
   const content = document.getElementById('mem-content').value.trim();
   const mood = document.getElementById('mem-mood').value;
   if (!title || !content) return;
-  await sb.from('love_memories').insert({ title, content, mood });
-  document.getElementById('mem-title').value = '';
-  document.getElementById('mem-content').value = '';
-  loadMemories();
-};
+  
+  sb.from('love_memories').insert({ title, content, mood }).then(() => {
+    document.getElementById('mem-title').value = '';
+    document.getElementById('mem-content').value = '';
+    loadMemories();
+  });
+}
 
 loadMemories();
