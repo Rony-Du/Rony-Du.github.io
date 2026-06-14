@@ -4,8 +4,11 @@
 const SUPABASE_URL = 'https://你的项目ID.supabase.co';     // ← 替换
 const SUPABASE_ANON_KEY = '你的anon公钥';                  // ← 替换
 
+// 使用 ES Module 动态导入 Supabase
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
 // 初始化 Supabase 客户端
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // =============================================
 // 全局变量
@@ -103,8 +106,7 @@ function subscribeToRealtime() {
       },
       (payload) => {
         const newMsg = payload.new;
-        // 如果是自己发的消息，不重复添加（因为已经在 sendMsg 里本地添加了）
-        // 但为了保险，我们检查一下是否已经存在
+        // 如果是自己发的消息，不重复添加
         const existing = chatBox.querySelector(`[data-id="${newMsg.id}"]`);
         if (!existing) {
           appendMessage(newMsg, true);
@@ -153,7 +155,7 @@ async function sendMsg() {
     // 清空输入框
     msgInput.value = '';
     
-    // 如果有返回数据，立即显示（避免等待 Realtime 延迟）
+    // 如果有返回数据，立即显示
     if (data && data.length > 0) {
       appendMessage(data[0], false);
       scrollToBottom();
@@ -305,3 +307,11 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// 让 switchTab 和 sendMsg 成为全局函数（因为 HTML onclick 需要它们）
+window.switchTab = switchTab;
+window.sendMsg = sendMsg;
+window.switchRoom = switchRoom;
+window.addMemory = addMemory;
+window.delMem = delMem;
+window.setAnniversary = setAnniversary;
