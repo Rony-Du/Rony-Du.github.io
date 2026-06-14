@@ -1,6 +1,6 @@
 // 替换为你的真实 Supabase 凭据
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_KEY = 'YOUR_ANON_KEY';
+const SUPABASE_URL = 'https://sihxiuysiczzxlzrirzx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dxNbb_jDiOMnIaADtbl41g_e_UfDHgW';
 
 // 避免重复声明：检查是否已存在
 if (typeof sb === 'undefined') {
